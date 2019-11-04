@@ -20,7 +20,7 @@ object SMTPClientSpec extends Properties("SMTPClient"){
         | .
         |x.
         |......
-      """.stripMargin.lines.mkString("\r\n").getBytes))
+      """.stripMargin.linesIterator.mkString("\r\n").getBytes))
     ).covary[IO]
     .chunkLimit(chunkSize).flatMap(ch => Stream.chunk(ch))
     .through(SMTPClient.impl.insertDotIfNeeded)
@@ -29,14 +29,14 @@ object SMTPClientSpec extends Properties("SMTPClient"){
       ByteVector.view(bs.values, bs.offset, bs.size)
     }
     .compile.toVector
-    .map(_.reduce(_ ++ _).decodeUtf8.right.toOption.getOrElse("").lines.mkString("\r\n"))
+    .map(_.reduce(_ ++ _).decodeUtf8.right.toOption.getOrElse("").linesIterator.mkString("\r\n"))
     .unsafeRunSync() ?=
       """Line
         |..
         | .
         |x.
         |.......
-      """.stripMargin.lines.mkString("\r\n")
+      """.stripMargin.linesIterator.mkString("\r\n")
   }
 
 
@@ -45,7 +45,7 @@ object SMTPClientSpec extends Properties("SMTPClient"){
     Stream.chunk(ByteVectorChunk(ByteVector.view(
       """220 smtp.gmail.com ESMTP k185sm1251101wma.28 - gsmtp
         |
-      """.stripMargin.lines.mkString("\r\n").getBytes
+      """.stripMargin.linesIterator.mkString("\r\n").getBytes
     ))).covary[IO]
     .chunkLimit(chunkSize).flatMap(ch => Stream.chunk(ch))
     .through(SMTPClient.impl.readResponse[IO])
@@ -66,7 +66,7 @@ object SMTPClientSpec extends Properties("SMTPClient"){
         |250-CHUNKING
         |250 SMTPUTF8
         |
-      """.stripMargin.lines.mkString("\r\n").getBytes
+      """.stripMargin.linesIterator.mkString("\r\n").getBytes
     ))).covary[IO]
       .chunkLimit(chunkSize).flatMap(ch => Stream.chunk(ch))
       .through(SMTPClient.impl.readResponse[IO])

@@ -30,7 +30,7 @@ object MIMEEncodeMultipartSpec extends Properties("MIMEEncodeMultipart") {
       |. Dot starting line
       |--- end
       |
-      |""".stripMargin.lines.mkString("\r\n")
+      |""".stripMargin.linesIterator.mkString("\r\n")
   ))
 
    val htmlText = Stream.chunk(StringChunk(
@@ -40,7 +40,7 @@ object MIMEEncodeMultipartSpec extends Properties("MIMEEncodeMultipart") {
        |    <div>This contains international chars ěščřžý </div>
        |  </body>
        |</html>
-       |""".stripMargin.lines.mkString("\r\n")
+       |""".stripMargin.linesIterator.mkString("\r\n")
    ))
 
   property("alternative") = protect {
@@ -99,7 +99,7 @@ object MIMEEncodeMultipartSpec extends Properties("MIMEEncodeMultipart") {
       |
       |------boundary-----
       |
-      |""".stripMargin.lines.mkString("\r\n")
+      |""".stripMargin.linesIterator.mkString("\r\n")
 
 
   }
@@ -205,7 +205,7 @@ object MIMEEncodeMultipartSpec extends Properties("MIMEEncodeMultipart") {
         |
         |-----mixed-boundary-----
         |
-        |""".stripMargin.lines.mkString("\r\n")
+        |""".stripMargin.linesIterator.mkString("\r\n")
   }
 
 }
