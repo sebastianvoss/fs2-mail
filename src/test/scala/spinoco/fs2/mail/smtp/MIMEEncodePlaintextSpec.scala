@@ -27,7 +27,7 @@ object MIMEEncodePlaintextSpec extends Properties("MIMEEncodePlaintext") {
       |. Dot starting line
       |--- end
       |
-      """.stripMargin.lines.mkString("\r\n")
+      """.stripMargin.linesIterator.mkString("\r\n")
   )).covary[IO]
 
   property("defaults") = protect {
@@ -64,7 +64,7 @@ object MIMEEncodePlaintextSpec extends Properties("MIMEEncodePlaintext") {
         |. Dot starting line
         |--- end
         |
-      """.stripMargin.lines.mkString("\r\n")
+      """.stripMargin.linesIterator.mkString("\r\n")
 
   }
 
@@ -103,7 +103,7 @@ object MIMEEncodePlaintextSpec extends Properties("MIMEEncodePlaintext") {
         |. Dot starting line
         |--- end
         |
-      """.stripMargin.lines.mkString("\r\n")
+      """.stripMargin.linesIterator.mkString("\r\n")
   }
 
   property("specified.transfer-encoding") = protect {
@@ -139,7 +139,7 @@ object MIMEEncodePlaintextSpec extends Properties("MIMEEncodePlaintext") {
       |  aGF0IHNoYWxsIGJlIGVuY29kZWQNCi4gRG90IHN0YXJ0aW5nIGxpbmUNCi0tLSBlbmQNCg0KI
       |  CAgICAg
       |
-      |""".stripMargin.lines.mkString("\r\n")
+      |""".stripMargin.linesIterator.mkString("\r\n")
   }
 
 }

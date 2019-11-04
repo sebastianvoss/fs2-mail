@@ -24,7 +24,7 @@ object TakeThroughDrainSpec extends Properties("TakeThroughDrain"){
     fs2.concurrent.Queue.unbounded[IO, Int].flatMap{ queue =>
 
       (source.through(queue.enqueue).drain ++
-        queue.dequeue.through(internal.takeThroughDrain(_ != 1)).take(2).drain ++
+        Stream.eval(queue.dequeue1).repeat.through(internal.takeThroughDrain(_ != 1)).take(2).drain ++
         Stream.eval(queue.dequeue1)
       ).compile.last
     }.unsafeRunTimed(10.second).flatten ?= Some(3)
@@ -39,7 +39,7 @@ object TakeThroughDrainSpec extends Properties("TakeThroughDrain"){
 
     fs2.concurrent.Queue.unbounded[IO, Int].flatMap{ queue =>
       (source.through(queue.enqueue).drain ++
-        queue.dequeue.through(internal.takeThroughDrain(_ != 1)).drain ++
+        Stream.eval(queue.dequeue1).repeat.through(internal.takeThroughDrain(_ != 1)).drain ++
         Stream.eval(queue.dequeue1)
         ).compile.last
     }.unsafeRunTimed(10.second).flatten ?= Some(3)
