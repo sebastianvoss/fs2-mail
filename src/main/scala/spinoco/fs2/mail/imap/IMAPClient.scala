@@ -287,7 +287,7 @@ object IMAPClient {
           fromServer.through(spinoco.fs2.mail.internal.takeThroughDrain[F, IMAPData] {
             case IMAPText(l) => ! l.startsWith(tag)
             case _  => true
-          }).pull.uncons1.flatMap {
+          }).onFinalize{Applicative[F].unit}.pull.uncons1.flatMap {
             case None => unlock.map { _ => Left("* BAD Connection with server terminated") }
             case Some((IMAPText(resp), tail)) =>
               if (resp.startsWith(tag)) {
